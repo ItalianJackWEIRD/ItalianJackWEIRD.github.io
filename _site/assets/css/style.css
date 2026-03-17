@@ -1,7 +1,7 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap");
 /* ─── CSS Variables ──────────────────────────────────── */
-:root { --bg: #1a1a1a; --bg-card: #242424; --bg-card-hover:#2c2c2c; --bg-about: #b2d8d8; --accent: #4EC9B0; /* teal — section headings */ --pink: #E8738A; /* coral/pink — project titles, badges */ --text: #d4d4d4; --text-muted: #9a9a9a; --text-dark: #1a1a1a; --border: #333; --font: 'Montserrat', sans-serif; --radius: 4px; --transition: 0.2s ease; }
+:root { --bg: #1a1208; --bg-card: #221a0a; --bg-card-hover:#2c2210; --bg-about: #2d4a1e; --accent: #6dbf5f; --pink: #a0c878; --text: #d4e8c2; --text-muted: #8a9e78; --text-dark: #d4e8c2; --border: #3a2e10; --font: 'Montserrat', sans-serif; --radius: 4px; --transition: 0.2s ease; }
 
 /* ─── Reset & Base ───────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,7 +57,7 @@ img { display: block; max-width: 100%; }
 
 .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
-.project-card { background: var(--bg-card); border-radius: var(--radius); overflow: hidden; transition: transform var(--transition), background var(--transition); cursor: pointer; }
+.project-card { background: linear-gradient(135deg, #1a1208 0%, #2c2210 100%); border-radius: var(--radius); overflow: hidden; transition: transform var(--transition), background var(--transition); cursor: pointer; }
 
 .project-card:hover { transform: translateY(-2px); background: var(--bg-card-hover); }
 
