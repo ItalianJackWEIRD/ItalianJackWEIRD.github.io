@@ -1,0 +1,31 @@
+title: "Your Name | Game Developer Portfolio"
+description: "Game developer portfolio"
+baseurl: ""
+url: "https://giacomoCeccarini.github.io"
+
+# Personal info — edit these
+author:
+  name: "Giacomo Ceccarini"
+  title: "Junior Gameplay Programmer"
+  bio: "Currently Master’s Student in Computer Engineering at Sapienza University of Rome. Been playing games since 4, been trying to make games since 9. I enjoy turning ideas into interactive experiences for everyone, and by doing so, i continuously improve my skills through practical small projects"
+  photo: "/assets/img/profile.jpg"
+  resume: "/assets/resume.pdf"
+
+social:
+  linkedin: "https://www.linkedin.com/in/giacomo-ceccarini-88a3103b6/"
+  github: "https://github.com/ItalianJackWEIRD"
+  instagram: "https://www.instagram.com/_giacomoceccarini_/"
+
+about:
+  title: "Hi, I'm Giacomo Ceccarini"
+  body: |
+    I am a game programmer currently working at a great studio. Before that, I worked as a web developer for several years.
+
+    I describe myself as a <strong>problem solver</strong> that seeks opportunities to <strong>learn</strong> new things, at the same time, <strong>constantly improving</strong> my skills. I enjoy creating games that feel great to play, with clean code that is easy to read.
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+markdown: kramdown
