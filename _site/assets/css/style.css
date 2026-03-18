@@ -109,7 +109,7 @@ img { display: block; max-width: 100%; }
 
 .about-section .section-title { color: var(--text-dark); margin-bottom: 20px; }
 
-.about-section p { font-size: 0.95rem; line-height: 1.75; max-width: 760px; margin-bottom: 16px; }
+.about-section p { font-size: 0.95rem; line-height: 1.75; max-width: 760px; margin-bottom: 16px; padding-left: 24px; }
 
 .about-section p:last-child { margin-bottom: 0; }
 

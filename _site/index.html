@@ -58,13 +58,8 @@
 <section class="hero">
   <div class="container">
     <div class="hero__photo">
-      <img
-        src="/assets/img/profile.jpg"
-        alt="Profile photo of Giacomo Ceccarini"
-        width="200"
-        height="200"
-        loading="lazy"
-      >
+      <img src="/assets/img/profile.jpg" alt="Profile photo of Giacomo Ceccarini" width="200"
+        height="200" loading="lazy">
     </div>
     <p class="hero__bio">Currently Master’s Student in Computer Engineering at Sapienza University of Rome. Been playing games since 4, been trying to make games since 9. I enjoy turning ideas into interactive experiences for everyone, and by doing so, i continuously improve my skills through practical small projects</p>
   </div>
@@ -77,82 +72,134 @@
 
     <div class="projects-grid">
       
-      <a class="project-card" href="/projects/bug-shooter/">
+      <a class="project-card" href="/projects/forest-runner/">
 
         
-        <img
-          class="project-card__image"
-          src="/assets/img/bug-shooter.png"
-          alt="Bug Shooter (2023) screenshot"
-          loading="lazy"
-        >
+        <video class="project-card__image project-card__video" muted loop playsinline preload="none"
+          data-src="/assets/video/forest-runner.mp4?v=3"></video>
         
 
         <div class="project-card__meta">
           <span class="project-card__meta-item">
             <!-- Team icon -->
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            1
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+            </svg>
+            3
           </span>
           <span class="project-card__meta-item">
             <!-- Clock icon -->
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-            6 Weeks
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            </svg>
+            3 Months
           </span>
           <span class="project-card__meta-item">
             <!-- Code icon -->
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-            SDL 2 (C++)
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+            </svg>
+            Unity (C#)
           </span>
         </div>
 
         <div class="project-card__body">
           <div class="project-card__title-row">
-            <span class="project-card__title">Bug Shooter (2023)</span>
+            <span class="project-card__title">Forest Runner (2023)</span>
             <span class="project-card__arrow">›</span>
           </div>
-          <p class="project-card__role">Gameplay Programmer</p>
-          <p class="project-card__desc">This project is a take on the Space Shooter genre. I developed my own ECS and used the Wave Function Collapse-algorithm as a background generator.</p>
+          <p class="project-card__role">Gameplay Programmer / Game Designer</p>
+          <p class="project-card__desc">This project is a first take on mobile game development, made in Unity. I worked on the core gameplay (typical endless runner) and game feel.</p>
         </div>
 
       </a>
       
-      <a class="project-card" href="/projects/bomberbots/">
+      <a class="project-card" href="/projects/fsm-ik-controller/">
 
         
-        <img
-          class="project-card__image"
-          src="/assets/img/bomberbots.png"
-          alt="Bömberbots (2022) screenshot"
-          loading="lazy"
-        >
+        <video class="project-card__image project-card__video" muted loop playsinline preload="none"
+          data-src="/assets/video/projectx.mp4?v=3"></video>
         
 
         <div class="project-card__meta">
           <span class="project-card__meta-item">
             <!-- Team icon -->
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            2
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+            </svg>
+            1
           </span>
           <span class="project-card__meta-item">
             <!-- Clock icon -->
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-            4 Months
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            </svg>
+            2 Months
           </span>
           <span class="project-card__meta-item">
             <!-- Code icon -->
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-            Löve2D (Lua)
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+            </svg>
+            Unity (C#), HDRP, IK System
           </span>
         </div>
 
         <div class="project-card__body">
           <div class="project-card__title-row">
-            <span class="project-card__title">Bömberbots (2022)</span>
+            <span class="project-card__title">Third-Person Controller with IK & Custom State Machine (2025)</span>
             <span class="project-card__arrow">›</span>
           </div>
           <p class="project-card__role">Gameplay Programmer</p>
-          <p class="project-card__desc">This project is a Bomberman clone made in Lua using the Löve2D framework, that my classmate and I worked on while studying.</p>
+          <p class="project-card__desc">A third-person action prototype in Unity focused on a scalable gameplay architecture. It features a custom state machine system for better state management, and uses Unity's Inverse Kinematics (IK) to dynamically align character interactions with the environment, enhancing realism.</p>
+        </div>
+
+      </a>
+      
+      <a class="project-card" href="/projects/procedural-walk-cycle-ik/">
+
+        
+        <video class="project-card__image project-card__video" muted loop playsinline preload="none"
+          data-src="/assets/video/procedural-walk-cycle.mp4?v=3"></video>
+        
+
+        <div class="project-card__meta">
+          <span class="project-card__meta-item">
+            <!-- Team icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+            </svg>
+            1
+          </span>
+          <span class="project-card__meta-item">
+            <!-- Clock icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            </svg>
+            1 Months
+          </span>
+          <span class="project-card__meta-item">
+            <!-- Code icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+            </svg>
+            Unreal Engine 5, Control Rig, Blueprints, IK
+          </span>
+        </div>
+
+        <div class="project-card__body">
+          <div class="project-card__title-row">
+            <span class="project-card__title">Procedural Walk Cycle with Inverse Kinematics (2024)</span>
+            <span class="project-card__arrow">›</span>
+          </div>
+          <p class="project-card__role">Technical Animator / Gameplay Programmer</p>
+          <p class="project-card__desc">Bachelor thesis project focused on procedural animation in Unreal Engine 5. Developed a dynamic walk cycle system for a multi-legged creature using Control Rig and Inverse Kinematics, allowing real-time adaptation to uneven terrain and environmental conditions.</p>
         </div>
 
       </a>
@@ -226,16 +273,56 @@
     <h2 class="section-title">Hi, I'm Giacomo Ceccarini</h2>
     
     
-      
-      <p>I am a game programmer currently working at a great studio. Before that, I worked as a web developer for several years.
+    
+    <p>I'm a Computer Engineering graduate from Roma Tre University, currently completing my Master's in Engineering in Computer Science at Sapienza.
 
-I describe myself as a <strong>problem solver</strong> that seeks opportunities to <strong>learn</strong> new things, at the same time, <strong>constantly improving</strong> my skills. I enjoy creating games that feel great to play, with clean code that is easy to read.
+I'm 24 and I've been playing games since I was a kid — that <strong>passion</strong> never left, it just became <strong>more technical</strong>. I focus on gameplay and systems programming, with a particular interest in how games <strong>feel to play</strong>, not just how they work. But I've never wanted to stop at code alone. I believe games are the <strong>ultimate form of art</strong>: the only medium that simultaneously engages audio, vision and touch. And if you believe that, you have to care about all of it.
+So that's what I do. I write code, find my way around Blender, and compose and implement audio — because understanding how all the pieces connect makes me a better programmer, and a <strong>better collaborator</strong>.
 </p>
-      
+    
     
   </div>
 </section>
 
+<script>
+  (function () {
+    function setupProjectVideos() {
+      const videos = document.querySelectorAll(".project-card__video");
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+
+          if (entry.isIntersecting) {
+            if (!video.dataset.loaded) {
+              const src = video.dataset.src;
+              if (!src) return;
+
+              video.src = src;
+              video.muted = true;
+              video.defaultMuted = true;
+              video.playsInline = true;
+              video.load();
+              video.dataset.loaded = "true";
+            }
+
+            const p = video.play();
+            if (p && typeof p.catch === "function") {
+              p.catch(() => { });
+            }
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      videos.forEach((video) => observer.observe(video));
+    }
+
+    document.addEventListener("DOMContentLoaded", setupProjectVideos);
+    window.addEventListener("pageshow", setupProjectVideos);
+  })();
+</script>
 
   <!-- ── FOOTER ─────────────────────────────────────── -->
   <footer class="site-footer">

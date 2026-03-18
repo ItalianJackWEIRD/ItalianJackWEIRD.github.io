@@ -19,9 +19,10 @@ social:
 about:
   title: "Hi, I'm Giacomo Ceccarini"
   body: |
-    I am a game programmer currently working at a great studio. Before that, I worked as a web developer for several years.
+    I'm a Computer Engineering graduate from Roma Tre University, currently completing my Master's in Engineering in Computer Science at Sapienza.
 
-    I describe myself as a <strong>problem solver</strong> that seeks opportunities to <strong>learn</strong> new things, at the same time, <strong>constantly improving</strong> my skills. I enjoy creating games that feel great to play, with clean code that is easy to read.
+    I'm 24 and I've been playing games since I was a kid — that <strong>passion</strong> never left, it just became <strong>more technical</strong>. I focus on gameplay and systems programming, with a particular interest in how games <strong>feel to play</strong>, not just how they work. But I've never wanted to stop at code alone. I believe games are the <strong>ultimate form of art</strong>: the only medium that simultaneously engages audio, vision and touch. And if you believe that, you have to care about all of it.
+    So that's what I do. I write code, find my way around Blender, and compose and implement audio — because understanding how all the pieces connect makes me a better programmer, and a <strong>better collaborator</strong>.
 
 collections:
   projects:
@@ -29,3 +30,7 @@ collections:
     permalink: /projects/:name/
 
 markdown: kramdown
+
+webrick:
+  mime_types:
+    video/mp4: [mp4]
