@@ -57,8 +57,8 @@
   <!-- ── HERO ──────────────────────────────────────────── -->
 <div class="project-hero project-hero--clickable" onclick="openVideoModal()">
   
-  <video class="project-hero__media" id="heroVideo" src="/assets/video/procedural-walk-cycle.mp4" autoplay muted loop playsinline
-    poster="/assets/img/procedural-walk-cycle.png"></video>
+  <video class="project-hero__media" id="heroVideo" src="/assets/video/spider-long.mp4" autoplay muted loop playsinline
+    poster="/assets/img/spider.png"></video>
   
   <div class="project-hero__overlay"></div>
   <div class="project-hero__title-wrap">
@@ -77,7 +77,7 @@
 <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
   <div class="video-modal__box">
     <button class="video-modal__close" onclick="closeVideoModal()">&times;</button>
-    <video class="video-modal__video" id="modalVideo" src="/assets/video/procedural-walk-cycle.mp4" controls playsinline></video>
+    <video class="video-modal__video" id="modalVideo" src="/assets/video/spider-long.mp4" controls playsinline></video>
   </div>
 </div>
 
@@ -115,7 +115,7 @@
 
       <div class="project-info-box project-info-box--about">
         <h2 class="project-info-box__title">About</h2>
-        <p>My Bachelor thesis — a procedural animation system for a multi-legged creature in Unreal Engine 5. Instead of pre-baked animations, each leg adapts in real time to terrain height, slope, and obstacles using Control Rig and Inverse Kinematics.</p>
+        <p>Bachelor thesis project. A fully procedural walk cycle for an 8-legged spider in Unreal Engine 5 — no keyframe animations. Every leg placement, body height, and movement arc is computed in real time using Inverse Kinematics, Control Rig, and Blueprint logic.</p>
       </div>
 
       <div class="project-info-box project-info-box--meta">
@@ -146,34 +146,91 @@
     <div class="project-page__content">
       <h2 id="introduction">Introduction</h2>
 
-<p>For my Bachelor thesis I wanted to tackle something at the intersection of animation and code. Procedural walk cycles are a great case study: the problem is well-defined, but getting it to look <em>natural</em> requires careful tuning of many interdependent systems.</p>
+<p>The goal was simple to state and genuinely hard to implement: take a static 3D spider model and make it walk convincingly across any terrain, without a single keyframe animation. Everything — foot placement, body alignment, leg timing, step arcs — had to be computed at runtime.</p>
 
-<h2 id="procedural-step-system">Procedural Step System</h2>
+<p>The project was also my first real contact with procedural animation as a discipline. The concepts involved (IK chains, coordinate spaces, delta-time-based systems) were new to me going in. I worked through them iteratively, using trial and error as the main methodology, which is honestly the only way this kind of work gets done.</p>
 
-<p>Each leg operates independently. A raycast checks the expected foot landing position ahead of the stride, and if the leg is past a distance threshold from its current planted point, a step is triggered. The step arc is driven by an animation curve so it eases in and out naturally.</p>
+<p>The mesh came pre-rigged. I built the material from scratch using generated texture maps (Normal, Roughness, Metallic, AO), and everything else in the project — Control Rig, Blueprints, PCG level — I wrote myself.</p>
 
-<ul>
-  <li>Per-leg stride threshold and cooldown</li>
-  <li>Terrain raycasts to find exact landing height</li>
-  <li>Smooth interpolation of foot position and rotation</li>
-  <li>Leg-pair coordination (opposing legs offset by half a cycle)</li>
-</ul>
+<h2 id="grounding-the-body--pelvis-and-feet">Grounding the Body — Pelvis and Feet</h2>
 
-<h2 id="body-motion">Body Motion</h2>
+<p>The first step was making the spider physically touch the ground. Without this, all IK work is meaningless.</p>
 
-<p>The body height and lean are derived from the average foot position — if the creature walks uphill, the body rises; on a slope, it tilts accordingly. This makes the creature feel <strong>grounded</strong> without any manual authoring.</p>
+<p>The foot IK is solved with Unreal’s <strong>Basic IK</strong> node inside Control Rig. With 8 legs, this runs once per foot every frame.</p>
+
+<p>I used <strong>Sphere Traces</strong> to find the terrain surface below each body part. For each of the 8 feet, I traced from above the foot position downward and used the hit point as the IK target.</p>
+
+<div class="gallery gallery--single">
+  <img src="/assets/img/spider1.png" alt="descrizione" />
+</div>
+<p class="gallery-caption">Pelvis and all 8 feet independently grounding to surfaces of different heights.</p>
+
+<p>This introduced the first bug: at geometry edges, legs would clip through surfaces because the trace origin was calculated from the foot position alone, ignoring the surrounding geometry. The fix was to interpolate the trace origin between the foot position and the pelvis (alpha = 0.5), which shifted it inward enough to clear the geometry.</p>
+
+<h2 id="locking-feet">Locking Feet</h2>
+
+<p>Once the feet could find the ground, the next problem was that they recalculated their target every frame — which meant they slid along the terrain instead of planting.</p>
+
+<p>I stored the initial foot positions in a <strong>WorldLockedFootLocation</strong> array (in World Space) during a Construction Event. From that point, IK targets were frozen in the array and only updated at controlled intervals, rather than recalculating every tick.</p>
+
+<p>Each new foot position is computed ahead of the body in the direction of movement, so the spider plants its feet where it’s going rather than where it was.</p>
+
+<h2 id="independent-leg-timing">Independent Leg Timing</h2>
+
+<p>At this point all 8 legs moved simultaneously, which looked completely robotic. The fix was a <strong>FootTimings</strong> array — each foot has its own timer that increments every frame by <code class="language-plaintext highlighter-rouge">deltaTime</code>. When a timer exceeds a threshold, that foot recalculates its target position and resets.</p>
+
+<p>To stagger the legs, I initialized each timer to <code class="language-plaintext highlighter-rouge">footIndex * 0.125</code> — a small offset per leg. Combined with a <strong>Remap</strong> function this produced the staggered, asynchronous feel I was after.</p>
 
 <div class="gallery">
-  <img src="/assets/img/procedural-walk-cycle.png" alt="Flat terrain walk cycle" />
-  <img src="/assets/img/procedural-walk-cycle.png" alt="Slope adaptation" />
+  <video src="/assets/video/spider-sync.mp4" autoplay="" muted="" loop="" playsinline=""></video>
+  <video src="/assets/video/spider-async.mp4" autoplay="" muted="" loop="" playsinline=""></video>
 </div>
-<p class="gallery-caption">Procedural foot placement adapting to flat and uneven terrain.</p>
+<p class="gallery-caption">Left: all legs moving simultaneously. Right: after per-leg timer offset and Remap — the movement becomes visibly more natural.</p>
 
-<h2 id="control-rig-integration">Control Rig Integration</h2>
+<h2 id="foot-arc">Foot Arc</h2>
 
-<p>All IK is solved in Unreal’s Control Rig, which runs as a post-process layer on the animation graph. This keeps IK separated from the Blueprint logic and makes it easy to tweak per-bone constraints and weight blends without touching the gameplay code.</p>
+<p>Feet were still moving in straight lines between positions. One of the 12 Principles of Animation states that natural movement follows arcs, not straight paths!</p>
 
-<p><a class="repo-link" href="https://github.com/ItalianJackWEIRD" target="_blank" rel="noopener">View on GitHub ↗</a></p>
+<p>I added an <strong>Evaluate Curve</strong> node that takes the interpolation progress (0→1) and maps it to a Z-offset following a custom curve. The curve peaks early and falls off gradually — so feet lift quickly and come down slowly. This single change made the movement look substantially more alive.</p>
+
+<p>The curve’s Target Maximum is driven by velocity, so faster movement produces higher step arcs.</p>
+
+<h2 id="pelvis-spring--the-part-that-made-it-feel-alive">Pelvis Spring — The Part That Made It Feel Alive</h2>
+
+<p>The pelvis was previously snapping instantly to new terrain heights, which broke the illusion of weight.</p>
+
+<p>I replaced the direct position assignment with UE5’s <strong>Spring Interpolate</strong> node, which helped simulating elasticity and mass.</p>
+
+<p>I also changed what the pelvis targets: instead of tracing from its own position, it now traces from the <strong>average position of all 8 feet</strong>. This means the body tracks toward the collective center of the legs — so when the spider climbs a slope, the body leans into it, and when it turns, the body follows the direction of movement.</p>
+
+<p>The result is that the spider appears to breathe. The body bobs naturally as legs cycle, reacts to terrain, and has inertia. This was the most satisfying moment in the project.</p>
+
+<div class="gallery gallery--single">
+  <video src="/assets/video/spider-pelvis.mp4" autoplay="" muted="" loop="" playsinline=""></video>
+</div>
+<p class="gallery-caption">The pelvis spring interpolation tracking the average foot position. The body movement is entirely procedural.</p>
+
+<h2 id="pcg-forest-level">PCG Forest Level</h2>
+
+<p>To test the system on real terrain (instead of the flat dev room used throughout), I built a forest level using UE5’s <strong>Procedural Content Generation</strong> framework.</p>
+
+<p>The assets came from Megascans. The point of this chapter wasn’t to build a complete game level — it was to give the IK system terrain that would actually challenge it.</p>
+
+<div class="gallery">
+  <img src="/assets/img/spider-show-FINAL.png" alt="descrizione" />
+  <img src="/assets/img/spider-show-FINAL2.png" alt="descrizione" />
+</div>
+<p class="gallery-caption">The spider in the PCG forest. Foot placement and body alignment adapting to uneven, sloped terrain in real time.</p>
+
+<h2 id="known-limitation">Known Limitation</h2>
+
+<p>At high speed, legs still trail slightly behind the body. The root cause is that foot positions are stored in <strong>World Space</strong>: when the body moves quickly, the locked world positions fall behind before the next step triggers. The correct fix is to store positions in <strong>Local Space</strong> (relative to the rig), so feet move with the body. I documented this in the thesis but didn’t implement it — the conversion between World and Local Space within Control Rig would have added significant complexity beyond the scope of the project.</p>
+
+<h2 id="what-id-do-differently">What I’d Do Differently</h2>
+
+<p>The leg trailing at speed is the obvious one. Beyond that, the step timing system is rigid — every leg uses the same threshold values. A more organic system would vary thresholds per leg pair based on their natural reach distance. I’d also explore blending the procedural system with short keyframe animations for specific actions like turning sharply or stopping, rather than relying on procedural motion for everything.</p>
+
+<p><em>Bachelor thesis — Roma Tre University, Computer Engineering. Grade: 101/110.</em></p>
 
     </div>
 

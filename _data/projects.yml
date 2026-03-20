@@ -27,6 +27,6 @@
   team: 1
   duration: "1 Months"
   tech: "Unreal Engine 5, Control Rig, Blueprints, IK"
-  image: "/assets/img/procedural-walk-cycle.png"
-  video: "/assets/video/procedural-walk-cycle.mp4"
+  image: "/assets/img/spider.png"
+  video: "/assets/video/spider-short.mp4"
   description: "Bachelor thesis project focused on procedural animation in Unreal Engine 5. Developed a dynamic walk cycle system for a multi-legged creature using Control Rig and Inverse Kinematics, allowing real-time adaptation to uneven terrain and environmental conditions."
