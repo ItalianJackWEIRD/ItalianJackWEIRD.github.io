@@ -127,6 +127,31 @@ img { display: block; max-width: 100%; }
 
 .project-hero__title { font-size: 2.6rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; line-height: 1.1; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5); }
 
+.project-hero--clickable { cursor: pointer; }
+
+.project-hero--clickable:hover .project-hero__overlay { background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.65) 70%, rgba(26, 18, 8, 0.95) 100%); }
+
+.project-hero__play-hint { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 0.8rem; font-weight: 500; color: rgba(255, 255, 255, 0.7); letter-spacing: 0.05em; text-transform: uppercase; transition: color var(--transition); }
+
+.project-hero__play-hint svg { width: 16px; height: 16px; opacity: 0.7; }
+
+.project-hero--clickable:hover .project-hero__play-hint { color: white; }
+
+.project-hero--clickable:hover .project-hero__play-hint svg { opacity: 1; }
+
+/* ─── Video Modal ────────────────────────────────────── */
+.video-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
+
+.video-modal--open { display: flex; }
+
+.video-modal__box { position: relative; width: 100%; max-width: 1000px; }
+
+.video-modal__close { position: absolute; top: -40px; right: 0; background: none; border: none; color: #fff; font-size: 2rem; line-height: 1; cursor: pointer; opacity: 0.7; transition: opacity var(--transition); padding: 0; }
+
+.video-modal__close:hover { opacity: 1; }
+
+.video-modal__video { width: 100%; border-radius: var(--radius); display: block; }
+
 /* ─── Project Page ───────────────────────────────────── */
 .project-page { padding: 36px 0 80px; }
 
@@ -188,7 +213,9 @@ img { display: block; max-width: 100%; }
 /* ─── Image gallery (2-up) ───────────────────────────── */
 .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0 8px; }
 
-.gallery img { width: 100%; border-radius: var(--radius); display: block; object-fit: cover; }
+.gallery img, .gallery video { width: 100%; border-radius: var(--radius); display: block; object-fit: cover; }
+
+.gallery--single { grid-template-columns: 1fr; max-width: 700px; margin-left: auto; margin-right: auto; }
 
 .gallery-caption { font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-bottom: 28px; }
 

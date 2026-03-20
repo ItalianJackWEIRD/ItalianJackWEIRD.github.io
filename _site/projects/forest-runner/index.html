@@ -55,16 +55,55 @@
 
   <!-- ── PAGE CONTENT ───────────────────────────────── -->
   <!-- ── HERO ──────────────────────────────────────────── -->
-<div class="project-hero">
+<div class="project-hero project-hero--clickable" onclick="openVideoModal()">
   
-  <video class="project-hero__media" src="/assets/video/forest-runner.mp4" autoplay muted loop playsinline
+  <video class="project-hero__media" id="heroVideo" src="/assets/video/forest-runner-long.mp4" autoplay muted loop playsinline
     poster="/assets/img/forest-runner.png"></video>
   
   <div class="project-hero__overlay"></div>
   <div class="project-hero__title-wrap">
     <h1 class="project-hero__title">Forest Runner (2023)</h1>
+    
+    <div class="project-hero__play-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      Watch
+    </div>
+    
   </div>
 </div>
+
+
+<!-- ── VIDEO MODAL ────────────────────────────────────── -->
+<div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
+  <div class="video-modal__box">
+    <button class="video-modal__close" onclick="closeVideoModal()">&times;</button>
+    <video class="video-modal__video" id="modalVideo" src="/assets/video/forest-runner-long.mp4" controls playsinline></video>
+  </div>
+</div>
+
+<script>
+  function openVideoModal() {
+    var modal = document.getElementById('videoModal');
+    var modalVideo = document.getElementById('modalVideo');
+    var heroVideo = document.getElementById('heroVideo');
+    modal.classList.add('video-modal--open');
+    if (heroVideo) heroVideo.pause();
+    modalVideo.play();
+  }
+  function closeVideoModal(e) {
+    if (e && e.target !== document.getElementById('videoModal') && !e.target.classList.contains('video-modal__close')) return;
+    var modal = document.getElementById('videoModal');
+    var modalVideo = document.getElementById('modalVideo');
+    var heroVideo = document.getElementById('heroVideo');
+    modal.classList.remove('video-modal--open');
+    modalVideo.pause();
+    if (heroVideo) heroVideo.play();
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeVideoModal({ target: document.getElementById('videoModal') });
+  });
+</script>
+
 
 <!-- ── INFO BOXES ────────────────────────────────────── -->
 <main class="project-page">
@@ -142,6 +181,11 @@
 
 <h2 id="in-game-shop">In-Game Shop</h2>
 
+<div class="gallery gallery--single">
+  <video src="/assets/video/forest-runner-shop.mp4" autoplay="" muted="" loop="" playsinline=""></video>
+</div>
+<p class="gallery-caption">The shop is meant as a "safe" place.</p>
+
 <p>Every 500 points, the normal tile stream is replaced by a shop sequence. The player can spend collected coins on four items: an extra life, a random power-up, a 40-second speed reduction, or a 40-second score multiplier. Each purchase goes through a confirmation popup — a small but deliberate UX choice to prevent accidental buys.</p>
 
 <h2 id="power-up-system">Power-Up System</h2>
@@ -159,6 +203,9 @@
 <p>Beyond bugs, the game is shallow. I wanted to add secondary height paths (elevated platforms, underground corridors) and roaming enemies that force the player to react differently depending on lane. Neither made it in due to time. Both would have meaningfully changed the design.</p>
 
 <p>The world-bend shader (the effect that curves the horizon, similar to Subway Surfers) was taken from an open-source shader — I didn’t write it.</p>
+
+<p><a class="repo-link" href="https://github.com/ItalianJackWEIRD/ForestRunner/tree/Sapienza/FinaleHCI" target="_blank" rel="noopener">View on GitHub ↗</a>
+ —&gt; Apk is outdated!</p>
 
     </div>
 

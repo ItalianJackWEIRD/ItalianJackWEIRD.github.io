@@ -55,16 +55,55 @@
 
   <!-- ── PAGE CONTENT ───────────────────────────────── -->
   <!-- ── HERO ──────────────────────────────────────────── -->
-<div class="project-hero">
+<div class="project-hero project-hero--clickable" onclick="openVideoModal()">
   
-  <video class="project-hero__media" src="/assets/video/projectx.mp4" autoplay muted loop playsinline
+  <video class="project-hero__media" id="heroVideo" src="/assets/video/projectx.mp4" autoplay muted loop playsinline
     poster="/assets/img/projectx.png"></video>
   
   <div class="project-hero__overlay"></div>
   <div class="project-hero__title-wrap">
     <h1 class="project-hero__title">Third-Person Controller with IK & Custom State Machine (2025)</h1>
+    
+    <div class="project-hero__play-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      Watch
+    </div>
+    
   </div>
 </div>
+
+
+<!-- ── VIDEO MODAL ────────────────────────────────────── -->
+<div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
+  <div class="video-modal__box">
+    <button class="video-modal__close" onclick="closeVideoModal()">&times;</button>
+    <video class="video-modal__video" id="modalVideo" src="/assets/video/projectx.mp4" controls playsinline></video>
+  </div>
+</div>
+
+<script>
+  function openVideoModal() {
+    var modal = document.getElementById('videoModal');
+    var modalVideo = document.getElementById('modalVideo');
+    var heroVideo = document.getElementById('heroVideo');
+    modal.classList.add('video-modal--open');
+    if (heroVideo) heroVideo.pause();
+    modalVideo.play();
+  }
+  function closeVideoModal(e) {
+    if (e && e.target !== document.getElementById('videoModal') && !e.target.classList.contains('video-modal__close')) return;
+    var modal = document.getElementById('videoModal');
+    var modalVideo = document.getElementById('modalVideo');
+    var heroVideo = document.getElementById('heroVideo');
+    modal.classList.remove('video-modal--open');
+    modalVideo.pause();
+    if (heroVideo) heroVideo.play();
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeVideoModal({ target: document.getElementById('videoModal') });
+  });
+</script>
+
 
 <!-- ── INFO BOXES ────────────────────────────────────── -->
 <main class="project-page">

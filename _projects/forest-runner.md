@@ -5,7 +5,7 @@ role: "Gameplay Programmer / Game Designer"
 team: 3
 duration: "3 Months"
 tech: "Unity (C#)"
-video: "/assets/video/forest-runner.mp4"
+video: "/assets/video/forest-runner-long.mp4"
 image: "/assets/img/forest-runner.png"
 about: "A mobile endless runner in Unity built in a team of three. My first time working on a mobile game end-to-end — from touch input and procedural tile generation to an in-game shop and a PlayFab-backed global leaderboard."
 ---
@@ -45,6 +45,11 @@ Speed scales continuously using `Mathf.Lerp` between 4 and 10 units/second as th
 
 ## In-Game Shop
 
+<div class="gallery gallery--single">
+  <video src="/assets/video/forest-runner-shop.mp4" autoplay muted loop playsinline></video>
+</div>
+<p class="gallery-caption">The shop is meant as a "safe" place.</p>
+
 Every 500 points, the normal tile stream is replaced by a shop sequence. The player can spend collected coins on four items: an extra life, a random power-up, a 40-second speed reduction, or a 40-second score multiplier. Each purchase goes through a confirmation popup — a small but deliberate UX choice to prevent accidental buys.
 
 ## Power-Up System
@@ -62,3 +67,6 @@ The character animation system is rough — basic transitions, no blending, noti
 Beyond bugs, the game is shallow. I wanted to add secondary height paths (elevated platforms, underground corridors) and roaming enemies that force the player to react differently depending on lane. Neither made it in due to time. Both would have meaningfully changed the design.
 
 The world-bend shader (the effect that curves the horizon, similar to Subway Surfers) was taken from an open-source shader — I didn't write it.
+
+<a class="repo-link" href="https://github.com/ItalianJackWEIRD/ForestRunner/tree/Sapienza/FinaleHCI" target="_blank" rel="noopener">View on GitHub ↗</a>
+ ---> Apk is outdated!
