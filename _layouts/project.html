@@ -2,37 +2,58 @@
 layout: default
 ---
 
+<!-- ── HERO ──────────────────────────────────────────── -->
+<div class="project-hero">
+  {% if page.video %}
+  <video class="project-hero__media" src="{{ page.video | relative_url }}" autoplay muted loop playsinline
+    {% if page.image %}poster="{{ page.image | relative_url }}"{% endif %}></video>
+  {% elsif page.image %}
+  <img class="project-hero__media" src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+  {% endif %}
+  <div class="project-hero__overlay"></div>
+  <div class="project-hero__title-wrap">
+    <h1 class="project-hero__title">{{ page.title }}</h1>
+  </div>
+</div>
+
+<!-- ── INFO BOXES ────────────────────────────────────── -->
 <main class="project-page">
   <div class="container">
 
-    <a href="{{ '/' | relative_url }}#portfolio" class="project-page__back">
-      ← Back to portfolio
-    </a>
+    <a href="{{ '/' | relative_url }}#portfolio" class="project-page__back">← Back to portfolio</a>
 
-    <div class="project-page__header">
-      <h1 class="project-page__title">{{ page.title }}</h1>
-      <p class="project-page__role">{{ page.role }}</p>
+    <div class="project-info-grid">
 
-      <div class="project-page__meta">
-        <span class="project-page__meta-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-          Team of {{ page.team }}
-        </span>
-        <span class="project-page__meta-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-          {{ page.duration }}
-        </span>
-        <span class="project-page__meta-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-          {{ page.tech }}
-        </span>
+      <div class="project-info-box project-info-box--about">
+        <h2 class="project-info-box__title">About</h2>
+        <p>{{ page.about }}</p>
       </div>
+
+      <div class="project-info-box project-info-box--meta">
+        <h2 class="project-info-box__title">Project Info</h2>
+        <ul class="project-meta-list">
+          <li class="project-meta-list__item">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            <span><strong>Role:</strong> {{ page.role }}</span>
+          </li>
+          <li class="project-meta-list__item">
+            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span><strong>Team Size:</strong> {{ page.team }}</span>
+          </li>
+          <li class="project-meta-list__item">
+            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            <span><strong>Time frame:</strong> {{ page.duration }}</span>
+          </li>
+          <li class="project-meta-list__item">
+            <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+            <span><strong>Engine:</strong> {{ page.tech }}</span>
+          </li>
+        </ul>
+      </div>
+
     </div>
 
-    {% if page.image %}
-    <img class="project-page__cover" src="{{ page.image | relative_url }}" alt="{{ page.title }} screenshot">
-    {% endif %}
-
+    <!-- ── CONTENT ──────────────────────────────────── -->
     <div class="project-page__content">
       {{ content }}
     </div>
