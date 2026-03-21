@@ -4,30 +4,91 @@ title: "Third-Person Controller with IK & Custom State Machine (2025)"
 role: "Gameplay Programmer"
 team: 1
 duration: "2 Months"
-tech: "Unity (C#), HDRP, IK System"
-image: "/assets/img/projectx.png"
+tech: "Unity (C#), HDRP, Animation Rigging"
 video: "/assets/video/projectx.mp4"
-about: "A third-person action prototype in Unity HDRP focused on scalable gameplay architecture. I built a custom state machine and integrated Unity's IK system to handle dynamic character interactions with the environment, prioritizing systems that could grow without becoming spaghetti."
+image: "/assets/img/projectx.png"
+about: "A third-person action prototype in Unity HDRP. The focus was architecture: a custom C# state machine running alongside Unity's Animator, a parkour system driven entirely by code rather than root motion, and Animation Rigging IK for procedural hand and foot placement."
 ---
 
 ## Introduction
 
-The main goal of this project was architectural: build a character controller I could actually extend. Unity's built-in Animator condition system works for small projects but becomes brittle fast. So I wrote my own FSM, then used IK on top of it to add environmental responsiveness.
+The goal was to build a character controller I could actually extend without it falling apart. Unity's built-in Animator FSM is fine for simple cases, but mixing gameplay logic into animation transitions makes both harder to reason about. So I kept them separate: the Animator handles blending and playback, and a custom C# FSM handles all gameplay decisions.
 
-## Custom State Machine
+The two talk to each other — the FSM sets Animator booleans and floats — but neither owns the other's logic.
 
-The FSM is generic and data-driven — states are plain C# classes, transitions are declared explicitly, and side effects are scoped to `OnEnter` / `OnExit` callbacks. This made it easy to add new states (crouch, ledge grab) without touching existing ones.
+## State Machine Architecture
 
-- States: Idle, Walk, Run, Jump, Fall, Land, Interact
-- Transitions with conditions and priority ordering
-- Blend tree integration for smooth animation crossfades
+Every state inherits from `BaseState`, which defines `EnterState()`, `UpdateState()`, and `ExitState()`. This gives full control over what happens at each phase of a state's lifecycle — setup, per-frame logic, and cleanup all live in explicit, separated methods rather than scattered across `Update()` callbacks.
 
-## Inverse Kinematics
+`PlayerStateMachine` acts as the shared context. It holds all the data states need — input, physics, animator references, scanner results — and passes itself into every state. States read and write through it rather than going looking for things themselves.
 
-Unity's IK pass runs *after* the animation graph, which is crucial — it means the base pose is fully computed before IK overrides it. I used this to align hands to surfaces, adjust foot placement on slopes, and drive interaction reach.
+`StateFactory` pre-instantiates all states at startup and holds references to them. States are reused across transitions instead of being allocated and garbage collected every time. `SwitchState()` calls `ExitState()` on the current state, swaps the reference, and calls `EnterState()` on the new one — the whole transition is three lines.
 
-- Foot IK: raycasts per foot, smooth blend between planted and lifted
-- Hand IK: target-driven for interactive objects in range
-- Body lean: counter-rotation based on movement direction
+When a parkour action starts, the FSM sets `inControl = false`, which blocks input processing and gravity for the duration of the animation. The state itself decides when to give control back.
 
-<a class="repo-link" href="https://github.com/ItalianJackWEIRD" target="_blank" rel="noopener">View on GitHub ↗</a>
+```
+States: Idle, Walk, Run, Jump, Fall, Crouch,
+        Vault, ClimbLow, ClimbHigh, ClimbDown, Slide
+```
+
+## Locomotion — Walk & Idle
+
+The walk state uses two separate animation curves for acceleration and deceleration rather than a single `Mathf.Lerp`. Acceleration eases in slowly at first then ramps up; deceleration starts fast and tapers off. The difference is subtle but the movement reads as having actual weight.
+
+Speed is also modified by a **directional speed curve** — the angle between the player's forward direction and the current movement direction is normalized to `[0, 1]` and evaluated against the curve. Moving forward gives full speed, strafing laterally about 75%, moving backward about 70%. This means backing away from something feels physically plausible without requiring separate animation states.
+
+Rotation uses its own acceleration curve as well — angular velocity ramps up proportionally to the camera-player angle difference, evaluated through a custom curve. The player doesn't snap to camera direction; it catches up smoothly.
+
+When you stop and transition to Idle, the last move direction and speed are passed across the state boundary. `IdleState` runs a momentum system for 1.2 seconds, applying a decaying force in that direction before the character fully stops. The decay follows a stop curve so the slowdown itself is nonlinear.
+
+<div class="gallery gallery--single">
+  <video src="/assets/video/projectx-locomotion.mp4" autoplay muted loop playsinline></video>
+</div>
+<p class="gallery-caption">Walk, strafe, and stop — the acceleration curves and momentum system are visible in how the character settles.</p>
+
+## Environment Scanner
+
+The `EnvironmentScanner` runs two raycasts to detect obstacles: one forward at chest height, and one downward from above the hit point to measure the obstacle's top surface. The height hit gives the exact position where hands or feet should land.
+
+Ray length is dynamic based on the current state — longer when running, shorter when crouching. This means you can initiate a vault from further away at a sprint, which feels correct, and you can't accidentally trigger parkour actions when crouched and near a wall.
+
+Ledge detection uses three downward raycasts — center, left, and right of the player. If the center ray misses (no ground ahead) while either side hits, the player is at a ledge. This drives the ledge camera offset and blocks forward input, and is what triggers ClimbDown when requested.
+
+## Parkour — Vault, Climb, Slide
+
+All parkour movement is driven by code. `Animator.applyRootMotion` is disabled on entry and the FSM moves the `CharacterController` directly using a parametric position calculated from a custom curve and a normalized time `t`. The animation plays for visual reference; the actual displacement is computed.
+
+**Vault** interpolates between a start and end position using a sine arc for the vertical component, driven by `VaultCurve`. The camera detaches from the player at entry and follows a manually scripted path — forward and slightly ahead — then lerps back to the player in the final 40% of the animation. Hand IK fades in between 15–55% of the animation using `TwoBoneIKConstraint` weights, locking both hands to the obstacle surface.
+
+<div class="gallery gallery--single">
+  <video src="/assets/video/projectx-vault.mp4" autoplay muted loop playsinline></video>
+</div>
+<p class="gallery-caption">Vault over a low obstacle. Hand IK targets are computed from the obstacle's hit point; the camera scripts its own path independently.</p>
+
+**ClimbHigh** works similarly but moves the character upward instead of over. The animation starts with a 16.75% preparation phase where the player advances horizontally without rising, then transitions into the vertical climb. IK weights for hands and feet fade in and out independently at different keyframe percentages — right foot first, then right hand, then left foot and left hand together — to match the visual rhythm of the animation without keying anything manually. Control returns at 85% of the animation so the player can already start steering into the next state.
+
+**Slide** locks the player into a forward direction at entry, computes a start and end position `slideDistance` units ahead, and moves the character along that path using `SlideCurve`. Exits into `Crouch` by default, or back into `Run` if sprint is held.
+
+<div class="gallery">
+  <video src="/assets/video/projectx-climb.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/projectx-slide.mp4" autoplay muted loop playsinline></video>
+</div>
+<p class="gallery-caption">ClimbHigh with per-limb IK fade timing. Slide with procedural camera follow.</p>
+
+## Camera
+
+Camera position is driven by a lerp toward a goal position (`_cameraTargetOffsetGoal`) that changes per state — higher for ledge, lower for crouch, default otherwise. The lerp runs every `LateUpdate` so the transition between positions is smooth rather than instant.
+
+`CameraMotion` adds a vertical bob and horizontal sway while walking, both evaluated from animation curves against a running timer. The effect is weighted — it fades in when the walk state starts and fades out on exit — so there's no pop when transitioning to idle.
+
+During parkour actions the camera target is detached from the player hierarchy entirely, moved manually by the state's own camera update function, then reattached on exit. This avoids the camera fighting between Cinemachine's follow and the state's scripted movement.
+
+Head look-at is handled with a Multi-Aim Constraint targeting a point in front of the camera. The constraint weight fades to zero when the camera swings behind the player past 115°, so the head doesn't torque unnaturally to face behind itself.
+
+## What I'd Do Differently
+
+The IK target positions for ClimbHigh are computed with hardcoded offsets relative to the obstacle hit point. It works for the obstacles in the test level but it's fragile — surface angles, obstacle widths, and edge cases all break it. A more robust approach would sample the surface normal and compute positions relative to it, or use a secondary raycast per limb.
+
+The parkour entry conditions (obstacle tag comparison, height threshold) live in the state transitions inside Walk and Idle. As the number of actions grows, this becomes a mess. A dedicated `ParkourResolver` that takes the scanner data and returns the correct state would be cleaner.
+
+<a class="repo-link" href="https://github.com/ItalianJackWEIRD/Project-X/tree/Sprint1/HDRPLevelPrototype" target="_blank" rel="noopener">View on GitHub ↗</a>
