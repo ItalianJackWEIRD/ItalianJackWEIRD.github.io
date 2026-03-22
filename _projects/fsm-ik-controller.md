@@ -5,8 +5,8 @@ role: "Gameplay Programmer"
 team: 1
 duration: "2 Months"
 tech: "Unity (C#), HDRP, Animation Rigging"
-video: "/assets/video/projectx.mp4"
-image: "/assets/img/projectx.png"
+video: "/assets/video/fsm-header.mp4"
+image: "/assets/img/fsm-header.png"
 about: "A third-person action prototype in Unity HDRP. The focus was architecture: a custom C# state machine running alongside Unity's Animator, a parkour system driven entirely by code rather than root motion, and Animation Rigging IK for procedural hand and foot placement."
 ---
 
@@ -36,7 +36,7 @@ The walk state uses two separate animation curves for acceleration and decelerat
 Speed is also modified by a **directional speed curve** — the angle between the player's forward direction and the current movement direction is normalized to `[0, 1]` and evaluated against the curve. Moving forward gives full speed, strafing laterally about 75%, moving backward about 70%. This means backing away from something feels physically plausible without requiring separate animation states.
 
 <div class="gallery gallery--single">
-  <video src="/assets/video/projectx-locomotion.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/fsm-locomotion.mp4" autoplay muted loop playsinline></video>
 </div>
 <p class="gallery-caption">Walk, strafe, and stop — the acceleration curves and momentum system are visible in how the character settles.</p>
 
@@ -45,7 +45,7 @@ Rotation uses its own acceleration curve as well — angular velocity ramps up p
 When you stop and transition to Idle, the last move direction and speed are passed across the state boundary. `IdleState` runs a momentum system for 1.2 seconds, applying a decaying force in that direction before the character fully stops. The decay follows a stop curve so the slowdown itself is nonlinear.
 
 <div class="gallery gallery--single">
-  <video src="/assets/video/projectx-locomotion-inertia.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/fsm-locomotion-inertia.mp4" autoplay muted loop playsinline></video>
 </div>
 <p class="gallery-caption">Momentum applied to the character.</p>
 
@@ -58,8 +58,8 @@ Ray length is dynamic based on the current state — longer when running, shorte
 Ledge detection uses three downward raycasts — center, left, and right of the player. If the center ray misses (no ground ahead) while either side hits, the player is at a ledge. This drives the ledge camera offset and blocks forward input, and is what triggers ClimbDown when requested.
 
 <div class="gallery">
-  <img src="/assets/img/projectx-scanner.png" alt="descrizione">
-  <img src="/assets/img/projectx-scanner-ledge.png" alt="descrizione">
+  <img src="/assets/img/fsm-scanner.png" alt="descrizione">
+  <img src="/assets/img/fsm-scanner-ledge.png" alt="descrizione">
 </div>
 <p class="gallery-caption">Debug view of the Environment Scanner.</p>
 
@@ -70,22 +70,22 @@ All parkour movement is driven by code. `Animator.applyRootMotion` is disabled o
 **Vault** interpolates between a start and end position using a sine arc for the vertical component, driven by `VaultCurve`. The camera detaches from the player at entry and follows a manually scripted path — forward and slightly ahead — then lerps back to the player in the final 40% of the animation. Hand IK fades in between 15–55% of the animation using `TwoBoneIKConstraint` weights, locking both hands to the obstacle surface.
 
 <div class="gallery gallery--single">
-  <video src="/assets/video/projectx-vault.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/fsm-vault.mp4" autoplay muted loop playsinline></video>
 </div>
 <p class="gallery-caption">Vault over a low obstacle. Hand IK targets are computed from the obstacle's hit point; the camera scripts its own path independently. Animation is pretty rough.</p>
 
 **ClimbHigh** works similarly but moves the character upward instead of over. The animation starts with a 16.75% preparation phase where the player advances horizontally without rising, then transitions into the vertical climb. IK weights for hands and feet fade in and out independently at different keyframe percentages — right foot first, then right hand, then left foot and left hand together — to match the visual rhythm of the animation without keying anything manually. Control returns at 85% of the animation so the player can already start steering into the next state.
 
 <div class="gallery">
-  <video src="/assets/video/projectx-climbHigh.mp4" autoplay muted loop playsinline></video>
-  <video src="/assets/video/projectx-climbLow.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/fsm-climbHigh.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/fsm-climbLow.mp4" autoplay muted loop playsinline></video>
 </div>
 <p class="gallery-caption">ClimbHigh on the left, ClimbLow on the right.</p>
 
 **Slide** locks the player into a forward direction at entry, computes a start and end position `slideDistance` units ahead, and moves the character along that path using `SlideCurve`. Exits into `Crouch` by default, or back into `Run` if sprint is held.
 
 <div class="gallery">
-  <video src="/assets/video/projectx-slide.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/fsm-slide.mp4" autoplay muted loop playsinline></video>
 </div>
 <p class="gallery-caption">Slide with procedural camera follow.</p>
 
@@ -100,7 +100,7 @@ During parkour actions the camera target is detached from the player hierarchy e
 Head look-at is handled with a Multi-Aim Constraint targeting a point in front of the camera. The constraint weight fades to zero when the camera swings behind the player past 115°, so the head doesn't torque unnaturally to face behind itself.
 
 <div class="gallery">
-  <video src="/assets/video/projectx-headIK.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/fsm-headIK.mp4" autoplay muted loop playsinline></video>
 </div>
 
 ## What I'd Do Differently

@@ -16,8 +16,8 @@
   team: 1
   duration: "2 Months"
   tech: "Unity (C#), HDRP, IK System"
-  image: "/assets/img/projectx.png"
-  video: "/assets/video/projectx.mp4"
+  image: "/assets/img/fsm-header-small.png"
+  video: "/assets/video/fsm-header-small.mp4"
   description: "A third-person action prototype in Unity focused on a scalable gameplay architecture. It features a custom state machine system for better state management, and uses Unity's Inverse Kinematics (IK) to dynamically align character interactions with the environment, enhancing realism."
   
 - title: "Procedural Walk Cycle with Inverse Kinematics (2024)"
