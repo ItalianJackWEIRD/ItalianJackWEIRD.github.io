@@ -10,6 +10,8 @@ image: "/assets/img/fsm-header.png"
 about: "A third-person action prototype in Unity HDRP. The focus was architecture: a custom C# state machine running alongside Unity's Animator, a parkour system driven entirely by code rather than root motion, and Animation Rigging IK for procedural hand and foot placement."
 ---
 
+> **A note on the animations.** All animations in this project are from Mixamo and were never retargeted to the character rig — so they look rough on the model. They also don't use root motion by design, since the goal was to build all displacement through code. This means the visual timing between the animation and the actual movement is often off. The animations are placeholder; the systems underneath them are the point.
+
 ## Introduction
 
 The goal was to build a character controller I could actually extend without it falling apart. Unity's built-in Animator handles blending and playback, and a custom C# FSM handles all gameplay decisions.
@@ -69,11 +71,6 @@ All parkour movement is driven by code. `Animator.applyRootMotion` is disabled o
 
 **Vault** interpolates between a start and end position using a sine arc for the vertical component, driven by `VaultCurve`. The camera detaches from the player at entry and follows a manually scripted path — forward and slightly ahead — then lerps back to the player in the final 40% of the animation. Hand IK fades in between 15–55% of the animation using `TwoBoneIKConstraint` weights, locking both hands to the obstacle surface.
 
-<div class="gallery gallery--single">
-  <video src="/assets/video/fsm-vault.mp4" autoplay muted loop playsinline></video>
-</div>
-<p class="gallery-caption">Vault over a low obstacle. Hand IK targets are computed from the obstacle's hit point; the camera scripts its own path independently. Animation is pretty rough.</p>
-
 **ClimbHigh** works similarly but moves the character upward instead of over. The animation starts with a 16.75% preparation phase where the player advances horizontally without rising, then transitions into the vertical climb. IK weights for hands and feet fade in and out independently at different keyframe percentages — right foot first, then right hand, then left foot and left hand together — to match the visual rhythm of the animation without keying anything manually. Control returns at 85% of the animation so the player can already start steering into the next state.
 
 <div class="gallery">
@@ -108,5 +105,9 @@ Head look-at is handled with a Multi-Aim Constraint targeting a point in front o
 The IK target positions for ClimbHigh are computed with hardcoded offsets relative to the obstacle hit point. It works for the obstacles in the test level but it's fragile — surface angles, obstacle widths, and edge cases all break it. A more robust approach would sample the surface normal and compute positions relative to it, or use a secondary raycast per limb.
 
 The parkour entry conditions (obstacle tag comparison, height threshold) live in the state transitions inside Walk and Idle. As the number of actions grows, this becomes a mess. A dedicated `ParkourResolver` that takes the scanner data and returns the correct state would be cleaner.
+
+The Animator state machine is incomplete. Several micro-transition states are missing — there's no `StartWalkBackward` before moving in reverse, no `StopRun` blend before idle, and similar gaps throughout. The result is that some transitions pop visually instead of flowing. Adding these intermediate states would require retargeting proper animations anyway, so it felt out of scope for this prototype.
+
+The momentum system applies to all stops regardless of the previous speed. In practice, this makes small directional corrections feel sluggish — tapping a direction and immediately releasing it carries the same inertia as stopping from a full sprint, which reads as floaty. The cleaner approach would be to gate the momentum system on exit speed: only apply it when coming out of `Run`, not `Walk`, and scale the effect proportionally to how fast the character was moving.
 
 <a class="repo-link" href="https://github.com/ItalianJackWEIRD/Project-X/tree/Sprint1/HDRPLevelPrototype" target="_blank" rel="noopener">View on GitHub ↗</a>
