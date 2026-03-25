@@ -8,7 +8,7 @@ author:
   name: "Giacomo Ceccarini"
   title: "Junior Gameplay Programmer"
   bio: "Currently Master’s Student in Computer Engineering at Sapienza University in Rome. Been playing games since 4, been trying to make games since 9. I enjoy turning ideas into interactive experiences for everyone, and by doing so, i continuously improve my skills through practical small projects"
-  photo: "/assets/img/profile.jpg"
+  photo: "/assets/img/profile-photo.png"
   resume: "/assets/resume.pdf"
 
 social:
@@ -20,8 +20,8 @@ about:
   body: |
     I'm a Computer Engineering graduate from Roma Tre University, currently completing my Master's in Engineering in Computer Science at Sapienza.
 
-    I'm 24 and I've been playing games since I was a kid — that <strong>passion</strong> never left, it just became <strong>more technical</strong>. I focus on gameplay and systems programming, with a particular interest in how games <strong>feel to play</strong>, not just how they work. But I've never wanted to stop at code alone. I believe games are the <strong>ultimate form of art</strong>: the only medium that simultaneously engages audio, vision and touch. And if you believe that, you have to care about all of it.
-    So that's what I do. I write code, find my way around Blender, and compose and implement audio — because understanding how all the pieces connect makes me a better programmer, and a <strong>better collaborator</strong>.
+    I'm 24 and I've been playing games since I was a kid, that <strong>passion</strong> never left, it just became <strong>more technical</strong>. I focus on gameplay and systems programming, with a particular interest in how games <strong>feel to play</strong>, not just how they work. But I've never wanted to stop at code alone. I believe games are the <strong>ultimate form of art</strong>: the only medium that simultaneously engages audio, vision and touch. And if you believe that, you have to care about all of it.
+    So that's what I do. I write code, find my way around Blender, and compose and implement audio because understanding how all the pieces connect makes me a better programmer, and a <strong>better collaborator</strong>.
 
 collections:
   projects:
