@@ -30,3 +30,14 @@
   image: "/assets/img/spider.png"
   video: "/assets/video/spider-short.mp4"
   description: "Bachelor thesis project focused on procedural animation in Unreal Engine 5. Developed a dynamic walk cycle system for a multi-legged creature using Control Rig and Inverse Kinematics, allowing real-time adaptation to uneven terrain and environmental conditions."
+
+- title: "Finite State Machine System for Unreal Engine 5 (Work in Progress)"
+  slug: "ue5-fsm"
+  category: "Game Programming"
+  role: "Gameplay Programmer"
+  team: 1
+  duration: "Ongoing"
+  tech: "Unreal Engine 5, C++, Plugin Architecture"
+  image: "/assets/img/ue5-fsm.png"
+  video: "/assets/video/ue5-fsm.mp4"
+  description: "A modular Finite State Machine architecture developed as an Unreal Engine 5 plugin, written entirely in C++. Features a StateManagerComponent handling state lifecycle, transition logic, and runtime history tracking."
