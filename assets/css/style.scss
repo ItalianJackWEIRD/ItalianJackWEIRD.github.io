@@ -695,3 +695,108 @@ img { display: block; max-width: 100%; }
   .site-header__name { font-size: 1.5rem; }
   .site-header__actions { gap: 10px; }
 }
+
+/* ─── UE5-FSM Page Overrides ─────────────────────────── */
+
+/* Accent colour shift: deep UE blue-teal instead of green */
+body.project-style-ue5 {
+  --page-accent:  #4db8ff;
+  --page-accent2: #7dd4fc;
+  --page-border:  rgba(77, 184, 255, 0.18);
+  --page-glow:    rgba(77, 184, 255, 0.08);
+}
+
+/* Hero title on this page uses the UE blue */
+body.project-style-ue5 .project-hero__title {
+  color: #fff;
+}
+
+/* Divider between FSM and Turning section */
+body.project-style-ue5 .project-page__content hr {
+  border: none;
+  border-top: 1px solid var(--page-border);
+  margin: 48px 0 40px;
+}
+
+/* Section headers pick up page accent */
+body.project-style-ue5 .project-page__content h2 {
+  color: var(--page-accent);
+}
+
+/* ── Feature badge row ──────────────────────────────── */
+.feature-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -4px 0 20px;
+}
+
+.feature-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--page-accent, var(--pink));
+  color: var(--page-accent, var(--pink));
+  background: var(--page-glow, transparent);
+}
+
+/* ── "What this taught me" box ──────────────────────── */
+.learned-box {
+  position: relative;
+  background: var(--page-glow, rgba(109,191,95,0.06));
+  border: 1px solid var(--page-border, rgba(109,191,95,0.2));
+  border-left: 3px solid var(--page-accent, var(--accent));
+  border-radius: var(--radius);
+  padding: 20px 24px 20px 28px;
+  margin: 32px 0 8px;
+}
+
+.learned-box__label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--page-accent, var(--accent));
+  margin-bottom: 10px;
+}
+
+.learned-box p {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ── Gallery images: subtle glow border on UE5 page ─── */
+body.project-style-ue5 .gallery img,
+body.project-style-ue5 .project-page__content img {
+  border: 1px solid var(--page-border);
+  transition: border-color 0.2s ease;
+}
+body.project-style-ue5 .gallery img:hover,
+body.project-style-ue5 .project-page__content img:hover {
+  border-color: rgba(77, 184, 255, 0.4);
+}
+
+/* ── Info box accent on UE5 page ────────────────────── */
+body.project-style-ue5 .project-info-box {
+  border-top: 2px solid var(--page-accent);
+}
+
+body.project-style-ue5 .project-info-box__title {
+  color: var(--page-accent);
+}
+
+/* ─── Project hero subtitle ──────────────────────────── */
+.project-hero__subtitle {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}

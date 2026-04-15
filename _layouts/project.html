@@ -12,7 +12,8 @@ layout: default
   {% endif %}
   <div class="project-hero__overlay"></div>
   <div class="project-hero__title-wrap">
-    <h1 class="project-hero__title">{{ page.title }}</h1>
+    <h1 class="project-hero__title">{{ page.title_display | default: page.title }}</h1>
+    {% if page.subtitle %}<p class="project-hero__subtitle">{{ page.subtitle }}</p>{% endif %}
     {% if page.video %}
     <div class="project-hero__play-hint">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
