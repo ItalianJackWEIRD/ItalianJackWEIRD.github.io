@@ -40,4 +40,4 @@
   tech: "Unreal Engine 5, C++, Plugin Architecture, Animation Blueprint"
   image: "/assets/img/ue5-fsm.png"
   video: "/assets/video/ue5-turnAnim.mp4"
-  description: "A third-person character controller built in UE5 C++ as the foundation for a vertical slice. Developed incrementally — starting from a custom State Machine plugin and growing one system at a time toward a complete locomotion pipeline."
+  description: "A third-person character controller built in UE5 C++ as the foundation for a vertical slice. Developed incrementally, starting from a custom State Machine plugin and growing one system at a time toward a complete locomotion pipeline."
