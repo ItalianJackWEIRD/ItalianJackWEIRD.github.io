@@ -8,7 +8,7 @@
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0, rootMargin: "0px 0px -10% 0px" });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
   // Subtle parallax for floating crystals
@@ -16,7 +16,7 @@
   if (crystals.length && window.matchMedia('(pointer:fine)').matches) {
     let tx = 0, ty = 0, cx = 0, cy = 0;
     document.addEventListener('mousemove', (e) => {
-      tx = (e.clientX / window.innerWidth  - 0.5) * 24;
+      tx = (e.clientX / window.innerWidth - 0.5) * 24;
       ty = (e.clientY / window.innerHeight - 0.5) * 24;
     });
     function raf() {
@@ -51,7 +51,7 @@
             }
           }
           const p = v.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
+          if (p && typeof p.catch === 'function') p.catch(() => { });
         } else {
           v.pause();
         }
@@ -71,7 +71,7 @@
     modal.classList.add('video-modal--open');
     if (heroVideo) heroVideo.pause();
     const p = modalVideo.play();
-    if (p && typeof p.catch === 'function') p.catch(() => {});
+    if (p && typeof p.catch === 'function') p.catch(() => { });
   };
   window.closeVideoModal = function (e) {
     const modal = document.getElementById('videoModal');
@@ -83,7 +83,7 @@
     if (modalVideo) modalVideo.pause();
     if (heroVideo) {
       const p = heroVideo.play();
-      if (p && typeof p.catch === 'function') p.catch(() => {});
+      if (p && typeof p.catch === 'function') p.catch(() => { });
     }
   };
   document.addEventListener('keydown', (e) => {
