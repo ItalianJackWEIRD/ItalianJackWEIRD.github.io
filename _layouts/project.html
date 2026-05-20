@@ -2,101 +2,85 @@
 layout: default
 ---
 
-<!-- ── HERO ──────────────────────────────────────────── -->
-<div class="project-hero {% if page.video %}project-hero--clickable{% endif %}" {% if page.video %}onclick="openVideoModal()"{% endif %}>
-  {% if page.video %}
-  <video class="project-hero__media" id="heroVideo" src="{{ page.video | relative_url }}" autoplay muted loop playsinline
-    {% if page.image %}poster="{{ page.image | relative_url }}"{% endif %}></video>
-  {% elsif page.image %}
-  <img class="project-hero__media" src="{{ page.image | relative_url }}" alt="{{ page.title }}">
-  {% endif %}
-  <div class="project-hero__overlay"></div>
-  <div class="project-hero__title-wrap">
-    <h1 class="project-hero__title">{{ page.title_display | default: page.title }}</h1>
-    {% if page.subtitle %}<p class="project-hero__subtitle">{{ page.subtitle }}</p>{% endif %}
+{% comment %}
+  PROJECT DETAIL PAGE
+  Front matter expected:
+    title, role, team, duration, tech, about
+    image: /assets/img/...
+    video: /assets/video/... (optional — auto-plays, click to open in modal)
+    title_display, subtitle (optional overrides)
+  Order in projects.yml drives prev/next navigation here.
+{% endcomment %}
+
+{% assign current_slug = page.slug %}
+{% assign idx = 0 %}
+{% for p in site.data.projects %}
+  {% if p.slug == current_slug %}{% assign idx = forloop.index0 %}{% endif %}
+{% endfor %}
+{% assign total = site.data.projects.size %}
+{% assign prev_idx = idx | minus: 1 %}
+{% assign next_idx = idx | plus: 1 %}
+{% assign prev_project = nil %}
+{% assign next_project = nil %}
+{% if prev_idx >= 0 %}{% assign prev_project = site.data.projects[prev_idx] %}{% endif %}
+{% if next_idx < total %}{% assign next_project = site.data.projects[next_idx] %}{% endif %}
+
+{% assign file_num = idx | plus: 1 %}
+{% capture file_num_padded %}{% if file_num < 10 %}0{% endif %}{{ file_num }}{% endcapture %}
+{% capture total_padded %}{% if total < 10 %}0{% endif %}{{ total }}{% endcapture %}
+
+<section class="proj-hero">
+  <div class="key {% if page.video %}key--clickable{% endif %}" {% if page.video %}onclick="openVideoModal()"{% endif %}>
     {% if page.video %}
-    <div class="project-hero__play-hint">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-      Watch
-    </div>
+    <video id="heroVideo" src="{{ page.video | relative_url }}" autoplay muted loop playsinline {% if page.image %}poster="{{ page.image | relative_url }}"{% endif %}></video>
+    <span class="play-hint">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      WATCH
+    </span>
+    {% elsif page.image %}
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
     {% endif %}
   </div>
-</div>
+
+  <article class="panel meta">
+    <div class="cat">FILE {{ file_num_padded }} · {{ page.subtitle | default: page.tech | upcase }}</div>
+    <h1>{{ page.title_display | default: page.title }}</h1>
+    {% if page.about %}<p class="about">{{ page.about }}</p>{% endif %}
+    <table class="proj-spec">
+      {% if page.role %}    <tr><td>Role</td><td>{{ page.role }}</td></tr>{% endif %}
+      {% if page.team %}    <tr><td>Team</td><td>{% if page.team == 1 %}Solo{% else %}{{ page.team }} people{% endif %}</td></tr>{% endif %}
+      {% if page.duration %}<tr><td>Duration</td><td>{{ page.duration }}</td></tr>{% endif %}
+      {% if page.tech %}    <tr><td>Tech</td><td>{{ page.tech }}</td></tr>{% endif %}
+    </table>
+  </article>
+</section>
 
 {% if page.video %}
-<!-- ── VIDEO MODAL ────────────────────────────────────── -->
+<!-- Video modal -->
 <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
   <div class="video-modal__box">
     <button class="video-modal__close" onclick="closeVideoModal()">&times;</button>
     <video class="video-modal__video" id="modalVideo" src="{{ page.video | relative_url }}" controls playsinline></video>
   </div>
 </div>
-
-<script>
-  function openVideoModal() {
-    var modal = document.getElementById('videoModal');
-    var modalVideo = document.getElementById('modalVideo');
-    var heroVideo = document.getElementById('heroVideo');
-    modal.classList.add('video-modal--open');
-    if (heroVideo) heroVideo.pause();
-    modalVideo.play();
-  }
-  function closeVideoModal(e) {
-    if (e && e.target !== document.getElementById('videoModal') && !e.target.classList.contains('video-modal__close')) return;
-    var modal = document.getElementById('videoModal');
-    var modalVideo = document.getElementById('modalVideo');
-    var heroVideo = document.getElementById('heroVideo');
-    modal.classList.remove('video-modal--open');
-    modalVideo.pause();
-    if (heroVideo) heroVideo.play();
-  }
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeVideoModal({ target: document.getElementById('videoModal') });
-  });
-</script>
 {% endif %}
 
-<!-- ── INFO BOXES ────────────────────────────────────── -->
-<main class="project-page">
-  <div class="container">
+<article class="panel proj-body reveal">
+  {{ content }}
+</article>
 
-    <a href="{{ '/' | relative_url }}#portfolio" class="project-page__back">← Back to portfolio</a>
+<article class="panel proj-nav">
+  {% if prev_project %}
+  <a href="{{ '/projects/' | append: prev_project.slug | append: '/' | relative_url }}">◀ PREV · {{ prev_project.title | split: ' (' | first | upcase }}</a>
+  {% else %}
+  <a href="{{ '/#projects' | relative_url }}">◀ ALL PROJECTS</a>
+  {% endif %}
 
-    <div class="project-info-grid">
+  <span style="color:var(--ink-dd)">FILE {{ file_num_padded }} / {{ total_padded }}</span>
 
-      <div class="project-info-box project-info-box--about">
-        <h2 class="project-info-box__title">About</h2>
-        <p>{{ page.about }}</p>
-      </div>
-
-      <div class="project-info-box project-info-box--meta">
-        <h2 class="project-info-box__title">Project Info</h2>
-        <ul class="project-meta-list">
-          <li class="project-meta-list__item">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-            <span><strong>Role:</strong> {{ page.role }}</span>
-          </li>
-          <li class="project-meta-list__item">
-            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            <span><strong>Team Size:</strong> {{ page.team }}</span>
-          </li>
-          <li class="project-meta-list__item">
-            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-            <span><strong>Time frame:</strong> {{ page.duration }}</span>
-          </li>
-          <li class="project-meta-list__item">
-            <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-            <span><strong>Engine:</strong> {{ page.tech }}</span>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-
-    <!-- ── CONTENT ──────────────────────────────────── -->
-    <div class="project-page__content">
-      {{ content }}
-    </div>
-
-  </div>
-</main>
+  {% if next_project %}
+  <a href="{{ '/projects/' | append: next_project.slug | append: '/' | relative_url }}">NEXT · {{ next_project.title | split: ' (' | first | upcase }} ▶</a>
+  {% else %}
+  <a href="{{ '/' | relative_url }}">▶ HOME</a>
+  {% endif %}
+</article>
