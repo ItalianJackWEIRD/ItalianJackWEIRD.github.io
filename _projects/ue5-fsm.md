@@ -247,7 +247,8 @@ Two toggle systems share one pattern: a transition animation plays, and a guard 
 **Stand ↔ Crouch** follows the same idea with an AnimNotifyState and a consume-pattern bool that reads and resets itself in a single call.
 
 <div class="gallery gallery--single">
-  <video src="/assets/video/ue5-gait-transitions.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/ue5-gait-transitions-walk-jog.mp4" autoplay muted loop playsinline></video>
+  <video src="/assets/video/ue5-gait-transitions-crouch-stand.mp4" autoplay muted loop playsinline></video>
 </div>
 <p class="gallery-caption">Walk-to-jog and stand-to-crouch transitions: the guard bool blocks re-triggering mid-clip, keeping each gait change clean and uninterrupted.</p>
 
