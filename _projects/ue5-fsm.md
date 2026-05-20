@@ -8,7 +8,7 @@ role: "Gameplay Programmer"
 team: 1
 duration: "Ongoing"
 tech: "Unreal Engine 5, C++, Plugin Architecture, Animation Blueprint"
-video: "/assets/video/ue5-turnAnim.mp4"
+video: "/assets/video/ue5-fsm.mp4"
 image: "/assets/img/ue5-fsm.png"
 about: "A third-person character controller built in UE5 C++ as the foundation for a vertical slice. Developed incrementally, starting from a custom State Machine plugin and growing one system at a time toward a complete locomotion pipeline."
 ---
