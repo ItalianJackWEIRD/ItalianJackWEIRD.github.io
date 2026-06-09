@@ -200,7 +200,7 @@ Two toggle systems share one pattern: a transition animation plays, and a guard 
 
 Each state's movement parameters (max speed, braking, friction) live in a `ULocomotionDataAsset` applied on `OnEnterState`, so they're tunable from the editor without recompiling.
 
-<div class="gallery gallery--single">
+<div class="gallery">
   <video src="/assets/video/ue5-gait-transitions-walk-jog.mp4" autoplay muted loop playsinline></video>
   <video src="/assets/video/ue5-gait-transitions-crouch-stand.mp4" autoplay muted loop playsinline></video>
 </div>
@@ -298,7 +298,7 @@ The stop animations are cardinal-only. Diagonal stops are synthesised at runtime
 The fix is an intermediate `IdleRecentering` state that plays a small step animation to physically move the foot back to a neutral position before falling through to Idle. Instead of the legs snapping around, the recovery feels like a natural *step*.
 
 
-<div class="gallery">
+<div class="gallery gallery--single">
   <video src="/assets/video/ue5-recentering-after.mp4" autoplay muted loop playsinline></video>
 </div>
 <p class="gallery-caption">The IdleRecentering state repositioning the foot cleanly.</p>
@@ -308,7 +308,7 @@ The whole system is driven by a single `bShouldRecenterIdle` bool set in C++ and
 The condition itself is simple geometry. Diagonals that need recentering all fall inside the forward or backward movement cone (pure laterals have no warp offset to fix). I compute the angular distance from the nearest axis with `DistFromAxis = min(|angle|, 180 − |angle|)`, which means 45° and 135° both return 45. Recentering triggers when that value falls inside the band `[DiagonalRecenterMin, HalfAngle]`, with `DiagonalRecenterMin` exposed as a tunable parameter.
 
 <!-- NEW MEDIA (optional) — a diagram of the cone geometry: forward/backward cones, the lateral gap, and the recentering band would make this section much clearer than a screenshot. (Claude offered to generate this as an SVG.) -->
-<div class="gallery gallery--single">
+<div class="gallery">
   <img src="/assets/img/recentering-cone-geometry.svg" alt="Recentering cone geometry diagram">
 </div>
 <p class="gallery-caption">The cone geometry: forward / backward gaits, the lateral gap, and the recentering band between DiagonalRecenterMin and the cone half-angle.</p>
