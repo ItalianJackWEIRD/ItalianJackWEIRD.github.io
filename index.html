@@ -151,6 +151,9 @@ layout: default
 <article class="panel contact reveal" id="contact">
   <div class="big">Open to <i>internship</i> opportunities.<br/>Let's talk.</div>
   <div class="links">
+    {% if site.social.email %}
+    <a class="btn" href="mailto:{{ site.social.email }}">EMAIL ↗</a>
+    {% endif %}
     {% if site.social.linkedin %}
     <a class="btn primary" href="{{ site.social.linkedin }}" target="_blank" rel="noopener">LINKEDIN ↗</a>
     {% endif %}
